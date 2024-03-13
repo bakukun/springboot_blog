@@ -18,9 +18,7 @@ public class UserApiController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private HttpSession session;
-    @PostMapping("/api/user")
+    @PostMapping("/auth/joinProc")
     public ResponseDto<Integer> save(@RequestBody User user){ //username, password, email
         System.out.println("UserApiController save 호출");
         user.setRole(RoleType.USER);
@@ -29,8 +27,9 @@ public class UserApiController {
     }
 
     //기본 로그인 (security 적용x)
+    /*
     @PostMapping("/api/user/login")
-    public ResponseDto<Integer> login(@RequestBody User user){ //username, password, email
+    public ResponseDto<Integer> login(@RequestBody User user,HttpSession session){ //username, password, email
         System.out.println("UserApiController login 호출");
         User principal = userService.로그인(user).orElseThrow(() -> new IllegalArgumentException("해당 유저는 없습니다. username: " + user.getUsername())); //principal(접근주체)
         if (principal != null){
@@ -39,4 +38,6 @@ public class UserApiController {
 
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }
+    */
+
 }

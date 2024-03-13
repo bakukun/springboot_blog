@@ -3,18 +3,18 @@
 <%@ include file="../layout/header.jsp" %>
 <div class="container">
 
-    <form action="/action_page.php" class="was-validated">
+    <form action="#" method="post">
 
         <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" placeholder="Enter Username" name="username" required>
+            <input type="text" name="username" class="form-control" id="username" placeholder="Enter Username" name="username" required>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">Please fill out this field.</div>
         </div>
 
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
+            <input type="password" name="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">Please fill out this field.</div>
         </div>
@@ -26,10 +26,10 @@
                 <div class="invalid-feedback">약관에 동의해주세요.</div>
             </label>
         </div>
-
+        <button id="btn-login" class="btn btn-primary">로그인</button>
     </form>
-    <button id="btn-login" class="btn btn-primary">로그인</button>
+
 </div>
-<script src="/blog/js/user.js "></script>
+
 <%@ include file="../layout/footer.jsp" %>
 
