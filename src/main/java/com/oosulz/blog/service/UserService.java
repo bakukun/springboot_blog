@@ -1,9 +1,11 @@
 package com.oosulz.blog.service;
 
+import com.oosulz.blog.model.RoleType;
 import com.oosulz.blog.model.User;
 import com.oosulz.blog.repository.UserRepository;
 import jakarta.persistence.TableGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +16,16 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Transactional
     public void 회원가입(User user){
+        String rawPassword = user.getPassword();
+        String encPassword = encoder.encode(rawPassword);
+        user.setPassword(encPassword);
+        user.setRole(RoleType.USER);
         userRepository.save(user);
     }
     /*
