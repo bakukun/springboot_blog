@@ -29,8 +29,7 @@ public class Board {
     @Lob // 섬머노트 <html> 디자인
     private String content;
 
-    @ColumnDefault("0")
-    private String count; // 조회수
+    private int count; // 조회수
 
     @CreationTimestamp //자동입력
     private Timestamp createDate;

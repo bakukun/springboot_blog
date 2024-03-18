@@ -3,6 +3,7 @@ package com.oosulz.blog.api;
 import com.oosulz.blog.dto.ResponseDto;
 import com.oosulz.blog.model.RoleType;
 import com.oosulz.blog.model.User;
+import com.oosulz.blog.service.BoardService;
 import com.oosulz.blog.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class UserApiController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BoardService boardService;
 
 
 
