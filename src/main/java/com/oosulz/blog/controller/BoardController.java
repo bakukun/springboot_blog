@@ -31,6 +31,11 @@ public class BoardController {
         // /WEB-INF/views"/"{index.jsp}
         return "board/saveForm";
     }
+    @GetMapping("/board/{id}/updateForm")
+    public String updateForm(@PathVariable int id,Model model) { //컨트롤러에서 세션을 어떻게 찾냐?
+        model.addAttribute("board",boardService.글상세보기(id));
+        return "board/updateForm";
+    }
     @GetMapping("board/{id}")
     public String findById(@PathVariable int id,Model model){
         model.addAttribute("board",boardService.글상세보기(id));
