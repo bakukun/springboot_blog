@@ -20,11 +20,6 @@ public class UserApiController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private BoardService boardService;
-
-
-
     @PostMapping("/auth/joinProc")
     public ResponseDto<Integer> save(@RequestBody User user){ //username, password, email
         System.out.println("UserApiController save 호출");

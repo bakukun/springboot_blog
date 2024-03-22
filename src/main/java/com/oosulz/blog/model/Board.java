@@ -27,6 +27,7 @@ public class Board {
     private String title; //게시물 제목
 
     @Lob // 섬머노트 <html> 디자인
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     private int count; // 조회수
