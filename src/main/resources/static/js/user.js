@@ -6,9 +6,9 @@ let index = {
         //$("#btn-login").on("click", ()=>{ // function(){} , ()=>{} this를 바인딩하기 위해서!!
         //    this.login();
         //});
-       // $("#btn-update").on("click", ()=>{ // function(){} , ()=>{} this를 바인딩하기 위해서!!
-     //       this.update();
-      //  });
+        $("#btn-update").on("click", ()=>{ // function(){} , ()=>{} this를 바인딩하기 위해서!!
+            this.update();
+        });
     },
 
     save: function(){
@@ -74,7 +74,7 @@ let index = {
       */
 
 
-/*
+
     update: function(){
         //alert('user의 save함수 호출됨');
         let data = {
@@ -98,7 +98,7 @@ let index = {
             alert(JSON.stringify(error));
         });
 
-    },*/
+    },
 }
 
 index.init();

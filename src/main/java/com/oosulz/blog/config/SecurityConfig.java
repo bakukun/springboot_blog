@@ -24,6 +24,7 @@ public class SecurityConfig {
     private PrincipalDetailService principalDetailService;
 
 
+
     @Bean
     BCryptPasswordEncoder encode() {
 
