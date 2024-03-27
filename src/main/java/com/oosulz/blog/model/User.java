@@ -30,13 +30,14 @@ public class User {
     private String username; //아이디
 
     @Column(nullable = false, length = 100) // 해쉬 넉넉하게
+    // 추후 카카오 API 활용 예정
     private String password;
 
     @Column(nullable = false, length = 50)
     private String email;
 
 
-    //@ColumnDefault("user")
+    //@ColumnDefault("user")   
     @Enumerated(EnumType.STRING)
     private RoleType role; // ADMIN,USER
     //Enum 이 낫긴함 => string의 범위 제한 / user , master 이런느낌
