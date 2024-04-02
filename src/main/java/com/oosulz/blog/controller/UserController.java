@@ -50,7 +50,7 @@ public class UserController {
 
         // HttpBody 오브젝트 생성
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "refresh_token");
+        params.add("grant_type", "authorization_code");
         params.add("client_id", "fc9a495f12d3bf5094703df4a9d10434");
         params.add("redirect_url", "https://localhost:8000/auth/kakao/callback");
         params.add("code", code);
