@@ -1,6 +1,9 @@
 package com.oosulz.blog.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oosulz.blog.config.auth.PrincipalDetail;
+import com.oosulz.blog.model.OAuthToken;
 import org.springframework.data.querydsl.binding.MultiValueBinding;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -67,8 +70,16 @@ public class UserController {
                 kakaoTokenRequest,
                 String.class
                 );
+        OAuthToken oAuthToken = null;
+        // object에 담기 (objectmapper 사용)
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            oAuthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("카카오 엑세스 토큰 : " + oAuthToken.getAccess_token());
 
-        return "카카오 인증 완료 " + response;
+        return response.getBody();
     }
-
 }
