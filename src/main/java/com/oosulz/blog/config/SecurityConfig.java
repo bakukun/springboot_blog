@@ -48,11 +48,11 @@ public class SecurityConfig {
                     .requestMatchers("/users/**", "/board/**").authenticated()
                     .anyRequest().permitAll();
         });
-        // 스프링 시큐리티가 해당 주소로 요청 오는 로그인을 가로채서 대신 로그인
+        // 스프링 시큐리티가 해당 주소로 요청 오는
+        // 로그인을 가로채서 대신 로그인
         http.formLogin(
                 f -> {
                     f.loginPage("/auth/loginForm").loginProcessingUrl("/auth/loginProc").defaultSuccessUrl("/").failureUrl("/auth/loginForm");
-
                 });
 
         //인증 주소 설정

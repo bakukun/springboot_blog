@@ -7,6 +7,7 @@ import com.oosulz.blog.model.KakaoProfile;
 import com.oosulz.blog.model.OAuthToken;
 import com.oosulz.blog.model.User;
 import com.oosulz.blog.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.querydsl.binding.MultiValueBinding;
@@ -18,12 +19,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -66,7 +69,7 @@ public class UserController {
     }
 
     @GetMapping("/auth/kakao/callback")
-    public String kakaoCallback(String code){
+    public String kakaoCallback(@RequestParam String code, HttpSession session){
         // post 방식으로 key-value 타입 데이터를 요청 해야함.
         // a 태그 불가 -> a태그 get 방식만 가능
         RestTemplate rt = new RestTemplate(); //http 요청 편하게 가능 Retrofit2 / okhttp/ resttemplate
@@ -94,6 +97,8 @@ public class UserController {
                 kakaoTokenRequest,
                 String.class
                 );
+
+
 
         // object에 담기 (objectmapper 사용)
         OAuthToken oAuthToken = null;
@@ -138,14 +143,13 @@ public class UserController {
         //User 오브젝트 : username, password, email
         String kakaoUsername = kakaoProfile.getKakao_account().getEmail() + kakaoProfile.getId();
         String kakaoEmail = kakaoProfile.getKakao_account().getEmail();
-        String kakaoPassword = oosulzKey;
         // UUID 중복되지 않는 어떤 특정 값을 만들어 내는 알고리즘
 
         //UUID garbagePassword = UUID.randomUUID();
 
         User kakaoUser = User.builder()
                 .username(kakaoUsername)
-                .password(kakaoPassword)
+                .password(oosulzKey)
                 .email(kakaoEmail)
                 .build();
 
@@ -158,11 +162,12 @@ public class UserController {
         }
 
         //로그인 처리
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(),kakaoUser.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(),oosulzKey));
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
         return "redirect:/";
-
 
     }
 }
