@@ -37,6 +37,14 @@ public class UserService {
     }
 
     @Transactional
+    public User 회원찾기(String username){
+        User user = userRepository.findByUsername(username).orElseGet(()->{
+          return new User();
+        });
+        return user;
+    }
+
+    @Transactional
     public void 회원수정(User user){
         //수정시에는 영속성 컨텍스트 User 오브젝트를 영속화 시키고. 영속화된 User object 수정
         //select를 해서 user 오브젝트를 db로부터 가져오면 == 영속화
