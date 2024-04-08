@@ -78,6 +78,8 @@ let index = {
             content: $("#reply-content").val()
         };
 
+        console.log();
+
         $.ajax({
             type: "POST",
             url: `/api/board/${data.boardId}/reply`,

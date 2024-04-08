@@ -48,5 +48,3 @@
     </div>
 </nav>
 <br/>
-
-<p>사용자 정보: ${principal}</p>

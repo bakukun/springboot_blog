@@ -1,5 +1,6 @@
 package com.oosulz.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,8 +44,9 @@ public class Board {
     // ORM 쓰면 DB도 오브젝트 저장 가능
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
     // mappedBy = 연관관계 주인 아니다 = 난 FK 아니에여 / DB컬럼 만들지 마라
-    //
-    private List<Reply> reply;
+    @JsonIgnoreProperties({"board"})
+    @OrderBy("id desc")
+    private List<Reply> replys;
 
 
 }
