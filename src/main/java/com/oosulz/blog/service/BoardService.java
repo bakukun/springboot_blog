@@ -68,6 +68,7 @@ public class BoardService {
     }
     @Transactional
     public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto){
+        /* 네이티브 쿼리 적용 전
         Board board = boardRepository.findById(replySaveRequestDto.getBoardId())
                 .orElseThrow(() -> {
                     return new IllegalArgumentException("글 찾기 실패: 아이디를 찾을 수 없습니다.");
@@ -80,7 +81,8 @@ public class BoardService {
 
         Reply reply = new Reply();
         reply.update(user,board,replySaveRequestDto.getContent());
-        replyRepository.save(reply);
+        */
+        replyRepository.mSave(replySaveRequestDto.getUserId(),replySaveRequestDto.getBoardId(),replySaveRequestDto.getContent());
 
     }
 
