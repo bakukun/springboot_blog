@@ -18,11 +18,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.ReadOnlyBufferException;
 import java.util.List;
 
+//@RequiredArgsConstructor => 생성자에 아규먼트가 필요한 애들을 전부 주입해줘
 @Service
 public class BoardService {
 
     @Autowired
     private UserRepository userRepository;
+
+    /* @Autowired 와 동일
+    public BoardService(BoardRepository bRepo,ReplyRepository rRepo){
+        this.boardRepository = bRepo;
+        this.replyRepository = rRepo;
+
+    private final BoardRepository boardRepository;
+     final은 꼭 초기화가 되어야함 / RequiredArgsConstructor로 초기화 쉽게 가능
+     */
 
     @Autowired
     private BoardRepository boardRepository;
@@ -82,8 +92,12 @@ public class BoardService {
         Reply reply = new Reply();
         reply.update(user,board,replySaveRequestDto.getContent());
         */
-        replyRepository.mSave(replySaveRequestDto.getUserId(),replySaveRequestDto.getBoardId(),replySaveRequestDto.getContent());
+        replyRepository.mSave(replySaveRequestDto.getBoardId(),replySaveRequestDto.getUserId(),replySaveRequestDto.getContent());
 
+    }
+    @Transactional
+    public void 댓글삭제(int id) {
+        replyRepository.deleteById(id);
     }
 
 }

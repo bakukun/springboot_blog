@@ -42,7 +42,7 @@ public class Board {
     // DB는 오브젝트 저장 X
     // FK, 자바는 오브젝트를 저장 할 수 있다.
     // ORM 쓰면 DB도 오브젝트 저장 가능
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     // mappedBy = 연관관계 주인 아니다 = 난 FK 아니에여 / DB컬럼 만들지 마라
     @JsonIgnoreProperties({"board"})
     @OrderBy("id desc")

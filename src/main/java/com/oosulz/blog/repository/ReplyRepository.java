@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface ReplyRepository extends JpaRepository<Reply,Integer> {
     @Modifying
     @Query(value="INSERT INTO reply(boardId, userId, content, createDate) VALUES (?1,?2,?3,now())" ,nativeQuery = true)
-    int mSave(int userId, int boardId, String content);
+    int mSave(int boardId, int userId, String content);
 }
