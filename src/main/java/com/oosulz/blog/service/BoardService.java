@@ -1,9 +1,11 @@
 package com.oosulz.blog.service;
 
 import com.oosulz.blog.model.Board;
+import com.oosulz.blog.model.Reply;
 import com.oosulz.blog.model.RoleType;
 import com.oosulz.blog.model.User;
 import com.oosulz.blog.repository.BoardRepository;
+import com.oosulz.blog.repository.ReplyRepository;
 import com.oosulz.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,9 @@ public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Transactional
     public void 글쓰기(Board board, User user) { //title,content
@@ -55,6 +60,18 @@ public class BoardService {
         board.setTitle(requestboard.getTitle());
         board.setContent(requestboard.getContent());
         //해당 함수로 종료시(service 종료시) 트렌젝션이 종료 -> 더티체킹 자동 업데이트(db flush)
+    }
+    @Transactional
+    public void 댓글쓰기(User user, int boardId, Reply requestReply){
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> {
+                    return new IllegalArgumentException("글 찾기 실패: 아이디를 찾을 수 없습니다.");
+                }); //영속화 시키기
+        requestReply.setUser(user);
+        requestReply.setBoard(board);
+
+        replyRepository.save(requestReply);
+
     }
 
 }
