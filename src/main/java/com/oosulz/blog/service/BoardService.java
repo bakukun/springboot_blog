@@ -1,5 +1,6 @@
 package com.oosulz.blog.service;
 
+import com.oosulz.blog.dto.ReplySaveRequestDto;
 import com.oosulz.blog.model.Board;
 import com.oosulz.blog.model.Reply;
 import com.oosulz.blog.model.RoleType;
@@ -21,10 +22,14 @@ import java.util.List;
 public class BoardService {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BoardRepository boardRepository;
 
     @Autowired
     private ReplyRepository replyRepository;
+
 
     @Transactional
     public void 글쓰기(Board board, User user) { //title,content
@@ -62,15 +67,20 @@ public class BoardService {
         //해당 함수로 종료시(service 종료시) 트렌젝션이 종료 -> 더티체킹 자동 업데이트(db flush)
     }
     @Transactional
-    public void 댓글쓰기(User user, int boardId, Reply requestReply){
-        Board board = boardRepository.findById(boardId)
+    public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto){
+        Board board = boardRepository.findById(replySaveRequestDto.getBoardId())
                 .orElseThrow(() -> {
                     return new IllegalArgumentException("글 찾기 실패: 아이디를 찾을 수 없습니다.");
                 }); //영속화 시키기
-        requestReply.setUser(user);
-        requestReply.setBoard(board);
 
-        replyRepository.save(requestReply);
+        User user = userRepository.findById(replySaveRequestDto.getUserId())
+                .orElseThrow(() -> {
+                    return new IllegalArgumentException("유저 찾기 실패: 아이디를 찾을 수 없습니다.");
+                }); //영속화 시키기
+
+        Reply reply = new Reply();
+        reply.update(user,board,replySaveRequestDto.getContent());
+        replyRepository.save(reply);
 
     }
 

@@ -1,6 +1,7 @@
 package com.oosulz.blog.api;
 
 import com.oosulz.blog.config.auth.PrincipalDetail;
+import com.oosulz.blog.dto.ReplySaveRequestDto;
 import com.oosulz.blog.dto.ResponseDto;
 import com.oosulz.blog.model.Board;
 import com.oosulz.blog.model.Reply;
@@ -37,10 +38,11 @@ public class BoardApiController {
         boardService.글수정하기(id,board);
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }
-
+    // 데이터를 받을 때 컨트롤러에서 dto를 만들어서 받는게 좋다
+    // dto 사용 x 이유 / 단순한 데이터이기 때문에
     @PostMapping("/api/board/{boardid}/reply")
-    public ResponseDto<Integer> replySave(@PathVariable int boardid, @RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetail principal){
-        boardService.댓글쓰기(principal.getUser(),boardid,reply);
+    public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto){
+        boardService.댓글쓰기(replySaveRequestDto);
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }
 }
